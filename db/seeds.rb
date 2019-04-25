@@ -13,7 +13,10 @@ Doctor.destroy_all
 Patient.destroy_all
 Appointment.destroy_all
 
+
+# seed Spéciality
 my_speciality = ['angiologue','généraliste','cardiologue','dentiste','pneumologue']
+my_speciality.each { |spe| Speciality.create(name: spe) }
 
 # seed les Patient
 50.times do
@@ -25,10 +28,11 @@ end
 
 # seed les Doctor
 10.times do
+  s = Speciality.order("RANDOM()").limit(1).ids[0]
   Doctor.create!(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    speciality: my_speciality[rand(my_speciality.length)],
+    speciality: s,
     zip_code: Faker::Number.number(5)
   )
 end
